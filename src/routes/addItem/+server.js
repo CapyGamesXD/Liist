@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, arrayUnion, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, arrayUnion, setDoc } from 'firebase/firestore';
 
 import {
 	apiKey,
@@ -34,9 +34,13 @@ export async function POST({ request }) {
 	if (item) {
 		const groupRef = doc(db, 'groups', key);
 
-		await updateDoc(groupRef, {
-			items: arrayUnion(item)
-		});
+		await setDoc(
+			groupRef,
+			{
+				items: arrayUnion(item)
+			},
+			{ merge: true }
+		);
 	}
 
 	return json({}, { status: 201 });

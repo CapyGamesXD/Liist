@@ -23,52 +23,55 @@ h1 {
 }
 
 .topGlass {
-	width: 100vw;
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.373);
+	width: clamp(20rem, 30vw, 95rem);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.373);
 	backdrop-filter: blur(5.5px);
-
+	background: rgba(68, 68, 68, 0.428);
 	-webkit-backdrop-filter: blur(5.5px);
-	border-radius: 0px 0px 40px 40px;
+	border-radius: 40px 40px 40px 40px;
 	position: fixed;
 	height: 12vh;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	top: 0;
+	top: 3vh;
 }
 
 .bottomGlass {
-	width: 100vw;
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.373);
+	width: clamp(20rem, 80vw, 95rem);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.373);
 	backdrop-filter: blur(5.5px);
-
+	background: rgba(68, 68, 68, 0.428);
 	-webkit-backdrop-filter: blur(5.5px);
-	border-radius: 40px 40px 0px 0px;
+	border-radius: 40px 40px 40px 40px;
 	position: fixed;
-	height: 15vh;
+	height: 17vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	bottom: 0;
+	bottom: 3vh;
 	display: flex;
 	justify-content: center;
 	gap: 1.5vh;
 }
 
 .list {
-	margin-top: 16vh;
-	margin-bottom: 16vh;
+	margin-top: 20vh;
+	margin-bottom: 20vh;
 	height: max-content;
 	width: 80vw;
 }
 
 p {
 	font-size: clamp(2.5rem, 3vw, 6rem);
+	max-width: 90vw;
 }
 
 input {
 	font-family: 'SN Pro', sans-serif;
 	font-optical-sizing: auto;
-	width: 80vw;
+	width: clamp(16rem, 65vw, 95rem);
 	background-color: rgb(65, 65, 65);
 	height: 4vh;
 	outline: none;
@@ -93,9 +96,11 @@ input {
 button {
 	font-family: 'SN Pro', sans-serif;
 	font-optical-sizing: auto;
-	width: clamp(10rem, 13vw, 15rem);
+
+	padding-left: 5vw;
+	padding-right: 5vw;
 	background-color: rgb(141, 141, 154);
-	height: 4vh;
+	height: 5vh;
 	outline: none;
 	border-radius: 100vw;
 	border: none;
@@ -104,6 +109,7 @@ button {
 	color: white;
 	margin-top: 0;
 	margin-bottom: 2vh;
+
 	font-size: 2vw;
 	display: flex;
 	align-items: center;
@@ -120,7 +126,7 @@ button {
 
 .divider {
 	height: 5px;
-	width: 50vw;
+	width: clamp(10rem, 15vw, 25rem);
 	background-color: rgb(62, 62, 62);
 	margin: 0 auto;
 	margin-top: 1vh;
@@ -129,10 +135,78 @@ button {
 }
 
 .smallButton {
-	width: 40vw;
-	height: 10vw;
+	width: clamp(15rem, 20vw, 30rem);
+	height: clamp(5rem, 6vw, 8rem);
 	margin: 0 auto;
-	font-size: 5vw;
+	font-size: clamp(1.5rem, 2.5vw, 5rem);
 	margin-top: 3vh;
 	margin-bottom: 2vh;
+}
+
+.bigbutton {
+	font-size: clamp(1.5rem, 2.5vw, 5rem);
+
+	width: clamp(15rem, 20vw, 30rem);
+	height: clamp(5rem, 7vw, 16rem);
+	margin-top: 2vh;
+}
+
+.key {
+	font-size: clamp(1rem, 2vw, 3rem);
+	margin: 0 auto;
+
+	text-align: center;
+	margin-top: 3vh;
+}
+
+.title {
+	margin-top: 3vh;
+}
+
+.back {
+	text-decoration: none;
+	color: white;
+
+	background-color: rgb(141, 141, 154);
+	width: clamp(5rem, 8vw, 10rem);
+	height: clamp(2rem, 4vw, 6rem);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 30px;
+	margin-top: 5vh;
+}
+
+a {
+	text-decoration: none;
+	color: white;
+}
+
+.glass {
+	width: clamp(20rem, 50vw, 70rem);
+	height: clamp(5rem, 10vw, 40rem);
+
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.373);
+	backdrop-filter: blur(5.5px);
+	background: rgba(68, 68, 68, 0.428);
+	-webkit-backdrop-filter: blur(5.5px);
+	border-radius: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+}
+
+.hidden {
+	background: none;
+	font-size: clamp(2.5rem, 3vw, 6rem);
+	height: 10vh;
+	margin: 0 auto;
+}
+
+.clampinput {
+	width: clamp(20rem, 30vw, 50rem);
+	height: clamp(2rem, 3vw, 7rem);
+	font-size: clamp(1rem, 2vw, 3rem);
 }

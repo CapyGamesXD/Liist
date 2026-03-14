@@ -5,7 +5,7 @@
 	// @ts-ignore
 	let items = $state([]);
 	let item = $state('');
-	let key = '';
+	let key = $state('');
 
 	async function fetchList() {
 		const response = await fetch('/fetchList', {
@@ -21,7 +21,14 @@
 
 	onMount(async () => {
 		key = localStorage.getItem('key') || '';
+
+		if (key === '') {
+			goto('/start');
+		}
 		await fetchList();
+		setInterval(async () => {
+			await fetchList();
+		}, 5000);
 	});
 
 	async function sendItem() {
@@ -57,9 +64,10 @@
 />
 
 <div class="centerdiv">
-	<div class="topGlass">
+	<a class="topGlass" href="/settings">
 		<h1>My Group:</h1>
-	</div>
+	</a>
+
 	<div class="list">
 		{#if items.length === 0}
 			<p>Looks like there's nothing here yet!</p>
@@ -67,7 +75,7 @@
 			<p>Type something and add it below!</p>
 		{:else}
 			{#each items as itempart}
-				<button class="smallButton" onclick={() => removeItem(itempart)}>Remove Item</button>
+				<button class="smallButton" onclick={() => removeItem(itempart)}>Remove</button>
 				<p class="listStuff">{itempart}</p>
 
 				<div class="divider"></div>

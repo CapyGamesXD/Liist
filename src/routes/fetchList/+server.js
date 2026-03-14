@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, onSnapshot } from 'firebase/firestore';
 
 import {
 	apiKey,
@@ -29,10 +29,13 @@ const db = getFirestore(app);
 // @ts-ignore
 export async function POST({ request }) {
 	const { key } = await request.json();
+	let itemList = '';
+
 	const groupRef = doc(db, 'groups', key);
 
 	const itemSnap = await getDoc(groupRef);
-	const itemList = itemSnap.data();
+	// @ts-ignore
+	itemList = itemSnap.data();
 
 	return json({ itemList }, { status: 201 });
 }
