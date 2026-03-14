@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc } from 'firebase/firestore';
+import { getFirestore, doc, arrayUnion, updateDoc } from 'firebase/firestore';
 
 import {
 	apiKey,
@@ -11,6 +11,7 @@ import {
 	messagingSenderId,
 	appId
 } from '$env/static/private';
+import { onMount } from 'svelte';
 
 const firebaseConfig = {
 	apiKey: apiKey,
@@ -26,10 +27,17 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-const washingtonRef = doc(db, 'cities', 'DC');
-
+// @ts-ignore
 export async function POST({ request }) {
-	const { item } = await request.json();
+	const { item, key } = await request.json();
+
+	if (item) {
+		const groupRef = doc(db, 'groups', key);
+
+		await updateDoc(groupRef, {
+			items: arrayUnion(item)
+		});
+	}
 
 	return json({}, { status: 201 });
 }

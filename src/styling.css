@@ -12,6 +12,7 @@ body {
 
 	text-align: center;
 	width: 100vw;
+	align-items: center;
 }
 
 h1 {
@@ -55,9 +56,9 @@ h1 {
 
 .list {
 	margin-top: 16vh;
-	margin-bottom: 12vh;
-
+	margin-bottom: 16vh;
 	height: max-content;
+	width: 80vw;
 }
 
 p {
@@ -111,4 +112,27 @@ button {
 
 .listStuff {
 	margin: 0;
+	flex: 1;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80vw;
+}
+
+.divider {
+	height: 5px;
+	width: 50vw;
+	background-color: rgb(62, 62, 62);
+	margin: 0 auto;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	border-radius: 30px;
+}
+
+.smallButton {
+	width: 40vw;
+	height: 10vw;
+	margin: 0 auto;
+	font-size: 5vw;
+	margin-top: 3vh;
+	margin-bottom: 2vh;
 }
