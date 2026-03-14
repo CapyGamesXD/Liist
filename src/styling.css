@@ -1,0 +1,114 @@
+body {
+	font-family: 'SN Pro', sans-serif;
+	font-optical-sizing: auto;
+	background-color: rgb(34, 34, 34);
+	margin: 0;
+	color: white;
+}
+
+.centerdiv {
+	display: flex;
+	flex-direction: column;
+
+	text-align: center;
+	width: 100vw;
+}
+
+h1 {
+	font-size: clamp(3rem, 5vw, 6rem);
+	width: 70vw;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.topGlass {
+	width: 100vw;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.373);
+	backdrop-filter: blur(5.5px);
+
+	-webkit-backdrop-filter: blur(5.5px);
+	border-radius: 0px 0px 40px 40px;
+	position: fixed;
+	height: 12vh;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.bottomGlass {
+	width: 100vw;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.373);
+	backdrop-filter: blur(5.5px);
+
+	-webkit-backdrop-filter: blur(5.5px);
+	border-radius: 40px 40px 0px 0px;
+	position: fixed;
+	height: 15vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	gap: 1.5vh;
+}
+
+.list {
+	margin-top: 16vh;
+	margin-bottom: 12vh;
+
+	height: max-content;
+}
+
+p {
+	font-size: clamp(2.5rem, 3vw, 6rem);
+}
+
+input {
+	font-family: 'SN Pro', sans-serif;
+	font-optical-sizing: auto;
+	width: 80vw;
+	background-color: rgb(65, 65, 65);
+	height: 4vh;
+	outline: none;
+	border-radius: 100vw;
+	border: none;
+	padding-left: 5vw;
+	padding-right: 5vw;
+	text-align: center;
+	color: white;
+	margin-top: 0;
+
+	font-size: 4vh;
+	margin-top: 1vh;
+}
+
+.smol {
+	font-size: 30px;
+	margin-bottom: 1vh;
+	margin-top: 1vh;
+}
+
+button {
+	font-family: 'SN Pro', sans-serif;
+	font-optical-sizing: auto;
+	width: clamp(10rem, 13vw, 15rem);
+	background-color: rgb(141, 141, 154);
+	height: 4vh;
+	outline: none;
+	border-radius: 100vw;
+	border: none;
+
+	text-align: center;
+	color: white;
+	margin-top: 0;
+	margin-bottom: 2vh;
+	font-size: 2vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.listStuff {
+	margin: 0;
+}
