@@ -1,6 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import { getAuth, signInAnonymously } from 'firebase/auth';
+	import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
+	import { initializeApp } from 'firebase/app';
 
 	// @ts-ignore
 	let items = $state([]);
@@ -8,34 +11,49 @@
 	let key = $state('');
 	let username = $state('');
 	let user = $state('');
+	let firebaseConfig = {};
 	// @ts-ignore
-	let done = $state([{}]);
 
-	async function fetchList() {
-		const response = await fetch('/fetchList', {
+	async function getSecrets() {
+		const response = await fetch('/sendSecrets', {
 			method: 'POST',
-			body: JSON.stringify({ key }),
+			body: JSON.stringify({}),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-		let stuff = await response.json();
-		items = stuff.itemList.items;
-		user = stuff.itemList.user;
-		console.log(item, '-', user);
+		let secrets = await response.json();
+		firebaseConfig = secrets.firebaseConfig;
 	}
 
 	onMount(async () => {
 		key = localStorage.getItem('key') || '';
-
 		username = localStorage.getItem('username') || '';
+
 		if (key === '') {
 			goto('/start');
 		}
-		await fetchList();
-		setInterval(async () => {
-			await fetchList();
-		}, 2000);
+
+		await getSecrets();
+
+		const app = initializeApp(firebaseConfig);
+		const auth = getAuth();
+
+		const db = getFirestore(app);
+
+		signInAnonymously(auth).then(() => {
+			console.log('SIGN IN WORKED! ');
+		});
+
+		const unsub = onSnapshot(doc(db, 'groups', key), (doc) => {
+			console.log('CHANGES DETECTED!');
+			// @ts-ignore
+			items = doc.data().items || [];
+		});
+
+		onDestroy(() => {
+			unsub();
+		});
 	});
 
 	async function sendItem() {
@@ -47,12 +65,10 @@
 			}
 		});
 		item = '';
-		await fetchList();
 	}
 
 	// @ts-ignore
 	async function removeItem(itempart) {
-		delete done[itempart];
 		const response = await fetch('/removeItem', {
 			method: 'POST',
 			body: JSON.stringify({ itempart, key }),
@@ -60,14 +76,9 @@
 				'Content-Type': 'application/json'
 			}
 		});
-
-		await fetchList();
 	}
 
 	async function clearList() {
-		// @ts-ignore
-		done = {};
-		done[items.length] = true;
 		const response = await fetch('/clearList', {
 			method: 'POST',
 			body: JSON.stringify({ key }),
@@ -78,10 +89,15 @@
 	}
 
 	// @ts-ignore
-	function doneFunc(itempart) {
+	async function doneFunc(itempart) {
 		// @ts-ignore
-
-		done[itempart] = done[itempart] == undefined ? false : !done[itempart];
+		const response = await fetch('/sendDone', {
+			method: 'POST',
+			body: JSON.stringify({ key, itempart }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
 	}
 </script>
 
@@ -107,13 +123,13 @@
 			{#each items as itempart}
 				<button class="smallButton" onclick={() => removeItem(itempart)}>Remove</button>
 				<button onclick={() => doneFunc(itempart)} class="hidden">
-					{#if done[itempart] == false}
-						<p class="listStuffDone">{itempart}</p>
+					{#if itempart.complete == true}
+						<p class="listStuffDone">{itempart.item}</p>
 					{:else}
-						<p class="listStuff">{itempart}</p>
+						<p class="listStuff">{itempart.item}</p>
 					{/if}
 
-					<p class="user">{user}</p>
+					<p class="user">{itempart.user}</p>
 				</button>
 
 				<div class="divider"></div>
@@ -125,7 +141,7 @@
 		<input placeholder="Enter Item" bind:value={item} />
 
 		<button onclick={sendItem}>
-			<p class="smol">Add Item</p>
+			<p class="buttonText">Add Item</p>
 		</button>
 	</div>
 </div>

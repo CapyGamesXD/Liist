@@ -4,9 +4,11 @@
 	let userName = $state('');
 
 	function storeUser() {
-		localStorage.setItem('username', userName);
-		console.log(localStorage.getItem('username'));
-		goto('/');
+		if (userName != '') {
+			localStorage.setItem('username', userName);
+			console.log(localStorage.getItem('username'));
+			goto('/');
+		}
 	}
 </script>
 

@@ -11,7 +11,6 @@ import {
 	messagingSenderId,
 	appId
 } from '$env/static/private';
-import { onMount } from 'svelte';
 
 const firebaseConfig = {
 	apiKey: apiKey,
@@ -30,6 +29,8 @@ const db = getFirestore(app);
 // @ts-ignore
 export async function POST({ request }) {
 	const { key } = await request.json();
+
+	// @ts-ignore
 
 	const groupRef = doc(db, 'groups', key);
 

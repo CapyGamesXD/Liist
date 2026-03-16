@@ -39,6 +39,10 @@
 	<a class="glass" href="/start">
 		<p>Restart</p>
 	</a>
+	<p class="smol">
+		Restarting takes you back to the start menu, making you re-enter your information like the code
+		and your username. Use carefully!
+	</p>
 </div>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" />

@@ -29,11 +29,12 @@
 <div class="centerdiv">
 	<h1 class="title">Key:</h1>
 
+	<p class="smol">Use this key to add others! You can find it again in settings</p>
 	<p class="key">
 		{key}
 	</p>
 
-	<button class="bigbutton" onclick={copy}> Done </button>
+	<button class="smallButton" onclick={copy}> Continue </button>
 </div>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />

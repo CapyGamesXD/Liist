@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { getFirestore, doc, arrayUnion, setDoc, updateDoc, arrayRemove } from 'firebase/firestore';
 
 import {
 	apiKey,
@@ -11,6 +11,7 @@ import {
 	messagingSenderId,
 	appId
 } from '$env/static/private';
+import { onMount } from 'svelte';
 
 const firebaseConfig = {
 	apiKey: apiKey,
@@ -28,14 +29,17 @@ const db = getFirestore(app);
 
 // @ts-ignore
 export async function POST({ request }) {
-	const { key } = await request.json();
-	let itemList = '';
+	const { key, itempart } = await request.json();
 
 	const groupRef = doc(db, 'groups', key);
 
-	const itemSnap = await getDoc(groupRef);
-	// @ts-ignore
-	itemList = itemSnap.data();
+	await updateDoc(groupRef, {
+		items: arrayRemove(itempart)
+	});
 
-	return json({ itemList }, { status: 201 });
+	await updateDoc(groupRef, {
+		items: arrayUnion({ ...itempart, complete: !itempart.complete })
+	});
+
+	return json({}, { status: 201 });
 }

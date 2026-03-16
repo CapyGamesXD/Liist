@@ -11,7 +11,7 @@ import {
 	messagingSenderId,
 	appId
 } from '$env/static/private';
-import { onMount } from 'svelte';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: apiKey,
@@ -26,8 +26,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+const auth = getAuth();
+
+signInAnonymously(auth).then(() => {
+	console.log('SIGN IN WORKED! ');
+});
 
 // @ts-ignore
+
 export async function POST({ request }) {
 	const { item, key, username } = await request.json();
 
@@ -37,8 +43,7 @@ export async function POST({ request }) {
 		await setDoc(
 			groupRef,
 			{
-				items: arrayUnion(item),
-				user: username
+				items: arrayUnion({ item: item, user: username, complete: false })
 			},
 			{ merge: true }
 		);
