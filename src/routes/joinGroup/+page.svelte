@@ -5,7 +5,8 @@
 	function join() {
 		if (inputKey != '') {
 			localStorage.setItem('key', inputKey);
-			goto('/');
+
+			goto('/username');
 		}
 	}
 </script>

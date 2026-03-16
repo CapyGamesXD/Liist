@@ -6,6 +6,10 @@
 	let items = $state([]);
 	let item = $state('');
 	let key = $state('');
+	let username = $state('');
+	let user = $state('');
+	// @ts-ignore
+	let done = $state([{}]);
 
 	async function fetchList() {
 		const response = await fetch('/fetchList', {
@@ -17,24 +21,27 @@
 		});
 		let stuff = await response.json();
 		items = stuff.itemList.items;
+		user = stuff.itemList.user;
+		console.log(item, '-', user);
 	}
 
 	onMount(async () => {
 		key = localStorage.getItem('key') || '';
 
+		username = localStorage.getItem('username') || '';
 		if (key === '') {
 			goto('/start');
 		}
 		await fetchList();
 		setInterval(async () => {
 			await fetchList();
-		}, 5000);
+		}, 2000);
 	});
 
 	async function sendItem() {
 		const response = await fetch('/addItem', {
 			method: 'POST',
-			body: JSON.stringify({ item, key }),
+			body: JSON.stringify({ item, key, username }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -45,6 +52,7 @@
 
 	// @ts-ignore
 	async function removeItem(itempart) {
+		delete done[itempart];
 		const response = await fetch('/removeItem', {
 			method: 'POST',
 			body: JSON.stringify({ itempart, key }),
@@ -52,7 +60,28 @@
 				'Content-Type': 'application/json'
 			}
 		});
+
 		await fetchList();
+	}
+
+	async function clearList() {
+		// @ts-ignore
+		done = {};
+		done[items.length] = true;
+		const response = await fetch('/clearList', {
+			method: 'POST',
+			body: JSON.stringify({ key }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+	}
+
+	// @ts-ignore
+	function doneFunc(itempart) {
+		// @ts-ignore
+
+		done[itempart] = done[itempart] == undefined ? false : !done[itempart];
 	}
 </script>
 
@@ -70,20 +99,30 @@
 
 	<div class="list">
 		{#if items.length === 0}
+			<p>Hey {username}!</p>
 			<p>Looks like there's nothing here yet!</p>
 			<div class="divider"></div>
 			<p>Type something and add it below!</p>
 		{:else}
 			{#each items as itempart}
 				<button class="smallButton" onclick={() => removeItem(itempart)}>Remove</button>
-				<p class="listStuff">{itempart}</p>
+				<button onclick={() => doneFunc(itempart)} class="hidden">
+					{#if done[itempart] == false}
+						<p class="listStuffDone">{itempart}</p>
+					{:else}
+						<p class="listStuff">{itempart}</p>
+					{/if}
+
+					<p class="user">{user}</p>
+				</button>
 
 				<div class="divider"></div>
 			{/each}
+			<button class="smallButton" onclick={() => clearList()}>Clear</button>
 		{/if}
 	</div>
 	<div class="bottomGlass">
-		<input bind:value={item} />
+		<input placeholder="Enter Item" bind:value={item} />
 
 		<button onclick={sendItem}>
 			<p class="smol">Add Item</p>

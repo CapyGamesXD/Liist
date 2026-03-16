@@ -22,7 +22,7 @@
 		} catch (e) {
 			console.warn('Clipboard failed:', e);
 		}
-		goto('/');
+		goto('/username');
 	}
 </script>
 

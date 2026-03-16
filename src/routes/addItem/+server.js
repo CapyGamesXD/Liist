@@ -29,7 +29,7 @@ const db = getFirestore(app);
 
 // @ts-ignore
 export async function POST({ request }) {
-	const { item, key } = await request.json();
+	const { item, key, username } = await request.json();
 
 	if (item) {
 		const groupRef = doc(db, 'groups', key);
@@ -37,7 +37,8 @@ export async function POST({ request }) {
 		await setDoc(
 			groupRef,
 			{
-				items: arrayUnion(item)
+				items: arrayUnion(item),
+				user: username
 			},
 			{ merge: true }
 		);
