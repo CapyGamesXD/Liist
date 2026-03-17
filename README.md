@@ -2,8 +2,7 @@
 
 Liist is a shared list for groups! You share your auto-generated code, allowing people to contribute and read the list!
 It's perfect for grocery shopping and outings!
-
-Liist lets you join groups with friends to coordinate plans.
+Liist lets you join groups with friends to coordinate plans, making it super simple to add, remove, and check items off the list by just tapping!
 
 It uses a modern glassy UI with the top bar being a settings button. 
 
